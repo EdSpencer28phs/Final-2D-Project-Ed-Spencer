@@ -8,6 +8,8 @@ public class PlayaMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     public PlayerData data;
+    public GameObject marker;
+    public GameObject projectilePrefab;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,10 +20,24 @@ public class PlayaMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
+        if(Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = 10f;
+
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            marker.transform.position = worldPosition;
+            // calculate direction of movement
+            Vector3 projectileDirection = Vector3.Normalize(worldPosition - transform.position);
+            // spawn projectile pre fab
+            GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            Rigidbody2D projectileRB = newProjectile.GetComponent<Rigidbody2D>();
+            projectileRB.linearVelocity = projectileDirection * 50;
+        }
+        // do n't derete
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+        
         
     }
     void FixedUpdate()
