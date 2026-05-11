@@ -10,29 +10,38 @@ public class PlayaMovement : MonoBehaviour
     public PlayerData data;
     public GameObject marker;
     public GameObject projectilePrefab;
+    public int ammo;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        ammo = 25;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(ammo >= 0)
         {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = 10f;
+            if(Input.GetMouseButtonDown(0))
+            {
+                Vector3 mousePosition = Input.mousePosition;
+                mousePosition.z = 10f;
 
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            marker.transform.position = worldPosition;
-            // calculate direction of movement
-            Vector3 projectileDirection = Vector3.Normalize(worldPosition - transform.position);
-            // spawn projectile pre fab
-            GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            Rigidbody2D projectileRB = newProjectile.GetComponent<Rigidbody2D>();
-            projectileRB.linearVelocity = projectileDirection * 50;
+                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+                marker.transform.position = worldPosition;
+             // calculate direction of movement
+             Vector3 projectileDirection = Vector3.Normalize(worldPosition - transform.position);
+             // spawn projectile pre fab
+                GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+             Rigidbody2D projectileRB = newProjectile.GetComponent<Rigidbody2D>();
+                projectileRB.linearVelocity = projectileDirection * 10;
+                ammo -= 1;
+            }
+        }
+        if(Input.GetKey(KeyCode.R))
+        {
+            ammo = 25;
         }
         // do n't derete
         horizontalInput = Input.GetAxisRaw("Horizontal");
