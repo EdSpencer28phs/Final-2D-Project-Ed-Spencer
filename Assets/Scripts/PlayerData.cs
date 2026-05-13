@@ -7,6 +7,7 @@ public class PlayerData : MonoBehaviour
     public Rigidbody2D rb;
     public bool isAlive;
     public PlayaMovement data;
+    public float timeInLevel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,8 +23,9 @@ public class PlayerData : MonoBehaviour
         {
             Debug.Log("You Died :(");
             isAlive = false;
+            data.ammo = 0;
         }
-
+        timeInLevel += Time.deltaTime;
     }
     void OnTriggerEnter2D(Collider2D other)
     {

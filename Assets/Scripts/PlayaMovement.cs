@@ -21,7 +21,7 @@ public class PlayaMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ammo >= 0)
+        if(ammo > 0)
         {
             if(Input.GetMouseButtonDown(0))
             {
@@ -35,7 +35,7 @@ public class PlayaMovement : MonoBehaviour
              // spawn projectile pre fab
                 GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
              Rigidbody2D projectileRB = newProjectile.GetComponent<Rigidbody2D>();
-                projectileRB.linearVelocity = projectileDirection * 10;
+                projectileRB.linearVelocity = projectileDirection * 40;
                 ammo -= 1;
             }
         }
