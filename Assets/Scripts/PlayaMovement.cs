@@ -11,7 +11,7 @@ public class PlayaMovement : MonoBehaviour
     public GameObject marker;
     public GameObject projectilePrefab;
     public int ammo;
-    
+    [SerializeField] private Cooldown cooldown;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,6 +21,7 @@ public class PlayaMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (cooldown.isCoolingDown) return;
         if(ammo > 0)
         {
             if(Input.GetMouseButtonDown(0))
@@ -35,7 +36,7 @@ public class PlayaMovement : MonoBehaviour
              // spawn projectile pre fab
                 GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
              Rigidbody2D projectileRB = newProjectile.GetComponent<Rigidbody2D>();
-                projectileRB.linearVelocity = projectileDirection * 40;
+                projectileRB.linearVelocity = projectileDirection * 80;
                 ammo -= 1;
             }
         }
@@ -43,6 +44,7 @@ public class PlayaMovement : MonoBehaviour
         {
             ammo = 25;
         }
+        cooldown.StartCooldown();
         // do n't derete
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
